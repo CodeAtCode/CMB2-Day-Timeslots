@@ -44,7 +44,7 @@
     var html = '';
 
     $.each( days, function( i, _ ) {
-      html += '<th>' + ( stringDays[ i ] || '' ) + '</th>';
+      html += '<th>' + ( stringDays[ _ ] || '' ) + '</th>';
     } );
     this.$el.find( '.schedule-header' ).html( '<tr><th></th>' + html + '</tr>' );
   };
@@ -163,27 +163,31 @@
 
     this.$el.on( 'mouseover', '.time-slot', function() {
       var $slots, day, start, end, temp;
+      var columnDay = $('.schedule-table tr:first-child .time-slot').length;
       if ( plugin.isSelecting() ) { // if we are in selecting mode
         $slots = plugin.$el.find( '.time-slot' );
         day = plugin.$selectingStart.data( 'day' );
         $slots.filter( '[data-selecting]' ).removeAttr( 'data-selecting' );
         start = $slots.index( plugin.$selectingStart );
         end = $slots.index( this );
-        var startDayNumb = start % 7;
-        var endDayNumb = end % 7;
-        var dayRange = [ startDayNumb ];
-        for ( var i = 1; i <= Math.abs( startDayNumb - endDayNumb ); i++ ) {
-          if ( Math.sign( startDayNumb - endDayNumb ) > 0 ) {
-            dayRange.push( startDayNumb - i );
-          } else {
-            dayRange.push( startDayNumb + i );
-          }
+        var startDayNumb = parseInt( plugin.$selectingStart.attr('data-day') );
+        var endDayNumb = parseInt( $( this ).attr('data-day') );
+        var dayRange = [];
+        var diffDayNumb = Math.abs( startDayNumb - endDayNumb );
+        var countStart = startDayNumb;
+        var countEnd = endDayNumb;
+        if (startDayNumb > endDayNumb) {
+          countStart = endDayNumb
+          countEnd = startDayNumb;
+        }
+        for ( var i = countStart; i <= countEnd; i++ ) {
+          dayRange.push(i);
         }
         dayRange.sort();
         var mousePosition;
-        if ( Math.floor( ( start - end ) / 7 ) + 1 > 0 ) mousePosition = "top";
-        else if ( Math.floor( ( start - end ) / 7 ) + 1 == 0 ) mousePosition = "center";
-        else if ( Math.floor( ( start - end ) / 7 ) + 1 < 0 ) mousePosition = "bottom";
+        if ( Math.floor( ( start - end ) / columnDay ) + 1 > 0 ) mousePosition = "top";
+        else if ( Math.floor( ( start - end ) / columnDay ) + 1 == 0 ) mousePosition = "center";
+        else if ( Math.floor( ( start - end ) / columnDay ) + 1 < 0 ) mousePosition = "bottom";
 
         if ( Math.sign( startDayNumb - endDayNumb ) > 0 ) mousePosition += " left";
         else if ( Math.sign( startDayNumb - endDayNumb ) == 0 ) mousePosition += " center";
@@ -198,7 +202,7 @@
           switch ( mousePosition ) {
             case "top right":
             case "bottom left":
-              $slots.slice( start - Math.abs( startDayNumb - endDayNumb ), end + Math.abs( startDayNumb - endDayNumb ) + 1 ).filter( '[data-day="' + day + '"]' ).attr( 'data-selecting', purpose );
+              $slots.slice( start - diffDayNumb, end + diffDayNumb + 1 ).filter( '[data-day="' + day + '"]' ).attr( 'data-selecting', purpose );
               break;
             default:
               $slots.slice( start, end + 1 ).filter( '[data-day="' + day + '"]' ).attr( 'data-selecting', purpose );
