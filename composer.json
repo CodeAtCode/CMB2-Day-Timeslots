@@ -1,10 +1,16 @@
 {
     "name": "codeatcode/cmb2-day-timeslots",
     "description": "Day selector field type for CMB2.",
-    "keywords": ["wordpress", "plugin"],
+    "keywords": [
+        "wordpress",
+        "cmb2"
+    ],
+    "type": "library",
     "license": "MIT",
     "homepage": "https://github.com/CodeAtCode/CMB2-Day-Timeslots",
     "autoload": {
-        "files": ["cmb2-day-timeslots.php"]
+        "files": [
+            "cmb2-day-timeslots.php"
+        ]
     }
 }
