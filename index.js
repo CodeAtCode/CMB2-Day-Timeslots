@@ -120,7 +120,7 @@
         if ( isSlotSelected( $( this ) ) ) {
           plugin.deselect( $( this ) );
         } else { // then start selecting
-          bodyElement.mouseleave( function( event ) {
+          bodyElement.on( 'mouseleave', function( event ) {
             var leftPageY = event.pageY;
             var scrollTop = bodyElement.scrollTop();
             var windowHeight = $( window ).height();
