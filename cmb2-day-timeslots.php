@@ -1,8 +1,5 @@
 <?php
 
-define( 'CMB_DAY_TIMESLOTS_URL', plugin_dir_url( __FILE__ ) );
-define( 'CMB_DAY_TIMESLOTS_VERSION', '1.0.0' );
-
 class CMB2_Day_Timeslots {
 
 	public $options = array(
@@ -72,10 +69,12 @@ class CMB2_Day_Timeslots {
 
 	// enque scripts
 	public function cmb_day_timeslots_enqueue() {
-		wp_enqueue_script( 'cmb_day_timeslots_script', CMB_DAY_TIMESLOTS_URL . 'index.js', array( 'jquery' ), CMB_DAY_TIMESLOTS_VERSION );
-		wp_enqueue_style( 'cmb_day_timeslots_stype', CMB_DAY_TIMESLOTS_URL . 'style.css', array(), CMB_DAY_TIMESLOTS_VERSION );
+		wp_enqueue_script( 'cmb_day_timeslots_script', plugin_dir_url( __FILE__ ) . 'index.js', array( 'jquery' ), '1.0.0' );
+		wp_enqueue_style( 'cmb_day_timeslots_stype', plugin_dir_url( __FILE__ ) . 'style.css', array(), '1.0.0' );
 	}
 
 }
 
-new CMB2_Day_Timeslots();
+if ( defined('ABSPATH') ) {
+	new CMB2_Day_Timeslots();
+}
