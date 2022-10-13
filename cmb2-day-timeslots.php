@@ -30,7 +30,6 @@ class CMB2_Day_Timeslots {
 		?>
 		<label for="opening_hours"><b><?php echo $options['opening_hour_label']; ?></b>: </label><input type="text" name="opening_hours" class="small-text" autocomplete="off" value="8:00" /><br>
 		<label for="closing_hours"><b><?php echo $options['closing_hour_label']; ?></b>: </label><input type="text" name="closing_hours" class="small-text" autocomplete="off" value="20:00" /><br>
-		<label for="minute_interval"><b><?php echo $options['minute_interval_label']; ?></b>: </label><input type="text" name="minute_interval" class="small-text" autocomplete="off" value="<?php echo $options['interval'] ?>" /><br>
 		<label for="repeat_every"><b><?php echo $options['repeat_every_label']; ?></b>: </label><select class="cmb2_select" name="repeat_every"  autocomplete="off">
 			<option value="week"><?php echo $options['week_label'] ?></option>
 			<option value="month"><?php _e('Month') ?></option>
@@ -65,7 +64,7 @@ class CMB2_Day_Timeslots {
 					days: jQuery.map(jQuery('.cmb-type-day-timeslots .cmb2-checkbox-list input:checked'), function(e,i) {
 						return +e.value;
 					}),
-					interval: jQuery('input[name="minute_interval"]').val(),
+					interval: <?php echo $options['interval'] ?>,
 					startTime: jQuery('input[name="opening_hours"]').val(),
 					endTime: jQuery('input[name="closing_hours"]').val(),
 					timeFormat: <?php echo $options['time_format'] ?>
