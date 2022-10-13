@@ -7,7 +7,6 @@ class CMB2_Day_Timeslots {
 		'closing_hour_label' => 'Closing Hour',
 		'weekday_label'  => 'WeekDays',
 		'weekday_labels' => array( 'Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thusday', 'Fridat', 'Saturday' ),
-		'minute_interval_label' => 'Minute Interval',
 		'reset_calendar' => 'Reset Calendar',
 		'repeat_every_label' => 'Repeat for next',
 		'week_label' => 'Week',
