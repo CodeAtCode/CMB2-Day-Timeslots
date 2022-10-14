@@ -310,7 +310,6 @@
         }
       } );
 	} );
-	console.log(this.getSelection())
 	this.$el.trigger( 'selecting.artsy.dayScheduleSelector', [ this.getSelection(), $( this ) ] );
 	this.$el.trigger( 'selecting_full.artsy.dayScheduleSelector', [ this.getSelection_full(), $( this ) ] );
 	this.$el.trigger( 'dataChanged', [ this.serialize() ] );
