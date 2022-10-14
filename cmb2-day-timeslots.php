@@ -27,6 +27,7 @@ class CMB2_Day_Timeslots {
 			'class' => 'hidden',
 		) );
 		?>
+		<textarea class="hidden" name="bookable_slots_to_parse" id="bookable_slots_to_parse" autocomplete="off"></textarea>
 		<label for="opening_hours"><b><?php echo $options['opening_hour_label']; ?></b>: </label><input type="text" name="opening_hours" class="small-text" autocomplete="off" value="8:00" /><br>
 		<label for="closing_hours"><b><?php echo $options['closing_hour_label']; ?></b>: </label><input type="text" name="closing_hours" class="small-text" autocomplete="off" value="20:00" /><br>
 		<label for="repeat_every"><b><?php echo $options['repeat_every_label']; ?></b>: </label><select class="cmb2_select" name="repeat_every"  autocomplete="off">
@@ -68,10 +69,13 @@ class CMB2_Day_Timeslots {
 					endTime: jQuery('input[name="closing_hours"]').val(),
 					timeFormat: <?php echo $options['time_format'] ?>
 				});
-				jQuery("#day-schedule").data('artsy.dayScheduleSelector').deserialize(JSON.parse(jQuery('#<?php echo $field->args['_id']; ?>').text()));
 				jQuery("#day-schedule").on('selecting.artsy.dayScheduleSelector', function (e, selected) {
 					jQuery('#<?php echo $field->args['_id']; ?>').text(JSON.stringify(selected));
-				})
+				});
+				jQuery("#day-schedule").on('selecting_full.artsy.dayScheduleSelector', function (e, selected) {
+					jQuery('#bookable_slots_to_parse').text(JSON.stringify(selected));
+				});
+				jQuery("#day-schedule").data('artsy.dayScheduleSelector').deserialize(JSON.parse(jQuery('#<?php echo $field->args['_id']; ?>').text()));
 			}
 			jQuery("#reset_calendar").on( 'click', function(e) {
 				initiateCalendar();

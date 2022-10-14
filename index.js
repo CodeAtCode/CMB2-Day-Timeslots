@@ -6,7 +6,7 @@
     this.options = $.extend( {}, DayScheduleSelector.DEFAULTS, options );
     this.render();
     this.attachEvents();
-    this.$selectingStart = null;
+	this.$selectingStart = null;
   };
 
   DayScheduleSelector.DEFAULTS = {
@@ -31,7 +31,7 @@
   DayScheduleSelector.prototype.render = function() {
     this.$el.html( this.options.template );
     this.renderHeader();
-    this.renderRows();
+	this.renderRows();
   };
 
   /**
@@ -102,6 +102,26 @@
     return this.serialize();
   };
 
+  /**
+   * Get the selected time slots split for every slots
+   * @private
+   * @returns {Array} An array of selected time slots
+   */
+  DayScheduleSelector.prototype.getSelection_full = function() {
+	var plugin = this;
+	var selections = {};
+
+	$.each( this.options.days, function( _, v ) {
+		selections[ v ] = [];
+		plugin.$el.find( ".time-slot[data-day='" + v + "']" ).each( function( index, el ) {
+			if ( isSlotSelected( $( this ) ) ) {
+				selections[ v ].push( [ $( this ).data( 'time' ), plugin.$el.find( ".time-slot[data-day='" + v + "']" ).eq(index + 1).data( 'time' ) ] );
+			}
+		} );
+	} );
+	return selections;
+  };
+
   DayScheduleSelector.prototype.attachEvents = function() {
     var plugin = this;
     var options = this.options;
@@ -159,6 +179,7 @@
       }
 
       plugin.$el.trigger( purpose + '.artsy.dayScheduleSelector', [ plugin.getSelection(), $( plugin ) ] );
+	  plugin.$el.trigger( purpose + '_full.artsy.dayScheduleSelector', [ plugin.getSelection_full(), $( plugin ) ] );
     } );
 
     this.$el.on( 'mouseover', '.time-slot', function() {
@@ -288,7 +309,11 @@
           }
         }
       } );
-    } );
+	} );
+	console.log(this.getSelection())
+	this.$el.trigger( 'selecting.artsy.dayScheduleSelector', [ this.getSelection(), $( this ) ] );
+	this.$el.trigger( 'selecting_full.artsy.dayScheduleSelector', [ this.getSelection_full(), $( this ) ] );
+	this.$el.trigger( 'dataChanged', [ this.serialize() ] );
   };
 
   /**
